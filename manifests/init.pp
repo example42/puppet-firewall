@@ -20,13 +20,13 @@ define firewall (
       'output'  => 'OUTPUT',
       'forward' => 'FORWARD',
       default   => 'INPUT',
-    },
+    }
 
     $iptables_target = $action ? {
       'deny'  => 'DROP',
       'drop'  => 'DROP',
       default => 'ACCEPT',
-    },
+    }
 
     iptables::rule { $name:
       chain       => $iptables_chain,
