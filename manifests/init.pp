@@ -29,7 +29,7 @@ define firewall (
       'reject'  => $protocol ? {
         'tcp'   => "REJECT --reject-with tcp-reset",
         default => "REJECT", 
-      }
+      },
 
       default   => 'ACCEPT',
     }
