@@ -23,9 +23,15 @@ define firewall (
     }
 
     $iptables_target = $action ? {
-      'deny'  => 'DROP',
-      'drop'  => 'DROP',
-      default => 'ACCEPT',
+      'deny'    => 'DROP',
+      'drop'    => 'DROP',
+
+      'reject'  => $protocol ? {
+        'tcp'   => "REJECT --reject-with tcp-reset",
+        default => "REJECT", 
+      }
+
+      default   => 'ACCEPT',
     }
 
     iptables::rule { $name:
