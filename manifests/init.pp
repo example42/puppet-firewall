@@ -10,6 +10,7 @@ define firewall (
   $port        = '',
   $action      = '',
   $direction   = '',
+  $order       = '',
   $tool        = 'iptables',
   $enable      = true
   ) {
@@ -48,6 +49,7 @@ define firewall (
       destination => $destination,
       protocol    => $protocol,
       port        => $port,
+      order       => $order,
       enable      => $enable,
     }
 
