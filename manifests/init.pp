@@ -20,7 +20,7 @@ define firewall (
     # FIXME: Unsure if this should be in firewall or iptables. Maybe both?
     # iptables-restore v1.3.5: Unknown arg `--dport'
     # -A INPUT  --dport 21   -j REJECT
-    if ($protocol == "" && $port) {
+    if ($protocol == "") and ($port) {
       fail("FIREWALL: Protocol must be set if port is set.")
     }
 
