@@ -10,11 +10,19 @@ define firewall (
   $port        = '',
   $action      = '',
   $direction   = '',
+  $order       = '',
   $tool        = 'iptables',
   $enable      = true
   ) {
 
   if ($tool =~ /iptables/) {
+
+    # FIXME: Unsure if this should be in firewall or iptables. Maybe both?
+    # iptables-restore v1.3.5: Unknown arg `--dport'
+    # -A INPUT  --dport 21   -j REJECT
+    if ($protocol == "") and ($port) {
+      fail("FIREWALL: Protocol must be set if port is set.")
+    }
 
     $iptables_chain = $direction ? {
       'output'  => 'OUTPUT',
@@ -23,9 +31,15 @@ define firewall (
     }
 
     $iptables_target = $action ? {
-      'deny'  => 'DROP',
-      'drop'  => 'DROP',
-      default => 'ACCEPT',
+      'deny'    => 'DROP',
+      'drop'    => 'DROP',
+
+      'reject'  => $protocol ? {
+        'tcp'   => "REJECT --reject-with tcp-reset",
+        default => "REJECT", 
+      },
+
+      default   => 'ACCEPT',
     }
 
     iptables::rule { $name:
@@ -35,6 +49,7 @@ define firewall (
       destination => $destination,
       protocol    => $protocol,
       port        => $port,
+      order       => $order,
       enable      => $enable,
     }
 
