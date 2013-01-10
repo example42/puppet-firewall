@@ -20,8 +20,8 @@ define firewall (
     # FIXME: Unsure if this should be in firewall or iptables. Maybe both?
     # iptables-restore v1.3.5: Unknown arg `--dport'
     # -A INPUT  --dport 21   -j REJECT
-    if ($protocol == "") and ($port) {
-      fail("FIREWALL: Protocol must be set if port is set.")
+    if ($protocol == '') and ($port) {
+      fail('FIREWALL: Protocol must be set if port is set.')
     }
 
     $iptables_chain = $direction ? {
@@ -35,8 +35,8 @@ define firewall (
       'drop'    => 'DROP',
 
       'reject'  => $protocol ? {
-        'tcp'   => "REJECT --reject-with tcp-reset",
-        default => "REJECT", 
+        'tcp'   => 'REJECT --reject-with tcp-reset',
+        default => 'REJECT',
       },
 
       default   => 'ACCEPT',
