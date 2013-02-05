@@ -58,7 +58,5 @@ define firewall (
       enable          => $enable,
       enable_v6       => $enable_v6,
     }
-
   }
-
 }
