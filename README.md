@@ -61,3 +61,7 @@ This module is derived from the firewall module of the first generation of Examp
 
 Work and adaptation for the second generation of Example42 Puppet module is in progress, some features may be added or modified.
 
+## Testing
+
+[![Build Status](https://travis-ci.org/example42/puppet-firewall.png?branch=master)](https://travis-ci.org/example42/puppet-firewall)
+
