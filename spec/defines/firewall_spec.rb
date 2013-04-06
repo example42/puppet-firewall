@@ -18,7 +18,7 @@ describe 'firewall' do
       'protocol'  => 'tcp',
       'enable_v6' => true,
       'source'    => '',
-      'destination' => '',
+      'destination' => ''
     ) }
   end
 end
