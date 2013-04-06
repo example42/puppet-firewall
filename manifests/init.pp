@@ -4,15 +4,18 @@
 # Example42's iptables module for host based local firewalling
 #
 define firewall (
-  $source      = '',
-  $destination = '',
-  $protocol    = '',
-  $port        = '',
-  $action      = '',
-  $direction   = '',
-  $order       = '',
-  $tool        = 'iptables',
-  $enable      = true
+  $source         = '',
+  $source_v6      = '',
+  $destination    = '',
+  $destination_v6 = '',
+  $protocol       = '',
+  $port           = '',
+  $action         = '',
+  $direction      = '',
+  $order          = '',
+  $tool           = 'iptables',
+  $enable         = true,
+  $enable_v6      = false
   ) {
 
   if ($tool =~ /iptables/) {
@@ -43,16 +46,17 @@ define firewall (
     }
 
     iptables::rule { $name:
-      chain       => $iptables_chain,
-      target      => $iptables_target,
-      source      => $source,
-      destination => $destination,
-      protocol    => $protocol,
-      port        => $port,
-      order       => $order,
-      enable      => $enable,
+      chain           => $iptables_chain,
+      target          => $iptables_target,
+      source          => $source,
+      source_v6       => $source_v6,
+      destination     => $destination,
+      destination_v6  => $destination_v6,
+      protocol        => $protocol,
+      port            => $port,
+      order           => $order,
+      enable          => $enable,
+      enable_v6       => $enable_v6,
     }
-
   }
-
 }
