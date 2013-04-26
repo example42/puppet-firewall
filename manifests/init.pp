@@ -4,10 +4,10 @@
 # Example42's iptables module for host based local firewalling
 #
 define firewall (
-  $source         = '',
-  $source_v6      = '',
-  $destination    = '',
-  $destination_v6 = '',
+  $source         = undef,
+  $source_v6      = undef,
+  $destination    = undef,
+  $destination_v6 = undef,
   $protocol       = '',
   $port           = '',
   $action         = '',
@@ -48,6 +48,34 @@ define firewall (
     iptables::rule { $name:
       chain           => $iptables_chain,
       target          => $iptables_target,
+      source          => $source,
+      source_v6       => $source_v6,
+      destination     => $destination,
+      destination_v6  => $destination_v6,
+      protocol        => $protocol,
+      port            => $port,
+      order           => $order,
+      enable          => $enable,
+      enable_v6       => $enable_v6,
+    }
+  } elsif ($tool =~ /ipfilter/) {
+  	
+    if ($protocol == '') and ($port) {
+      fail('FIREWALL: Protocol must be set if port is set.')
+    }
+    $ipfilter_dir = $direction ? {
+      'output'  => 'out',
+      default   => 'in',
+    }
+    $ipfilter_action = $action ? {
+      'deny'    => 'block',
+      'drop'    => 'block',
+      'reject'  => 'block return-icmp-as-dest(3)',
+      default   => 'pass',
+    }
+    ipfilter::rule { $name:
+      direction       => $ipfilter_dir,
+      action          => $ipfilter_action,
       source          => $source,
       source_v6       => $source_v6,
       destination     => $destination,
