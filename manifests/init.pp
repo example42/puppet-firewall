@@ -53,9 +53,6 @@ define firewall (
     }
   } elsif ($tool =~ /ipfilter/) {
   	
-    if ($protocol == '') and ($port) {
-      fail('FIREWALL: Protocol must be set if port is set.')
-    }
     $ipfilter_dir = $direction ? {
       'output'  => 'out',
       default   => 'in',
