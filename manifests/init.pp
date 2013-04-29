@@ -8,7 +8,7 @@ define firewall (
   $source_v6      = undef,
   $destination    = undef,
   $destination_v6 = undef,
-  $protocol       = '',
+  $protocol       = undef,
   $port           = '',
   $action         = '',
   $direction      = '',
@@ -19,13 +19,6 @@ define firewall (
   ) {
 
   if ($tool =~ /iptables/) {
-
-    # FIXME: Unsure if this should be in firewall or iptables. Maybe both?
-    # iptables-restore v1.3.5: Unknown arg `--dport'
-    # -A INPUT  --dport 21   -j REJECT
-    if ($protocol == '') and ($port) {
-      fail('FIREWALL: Protocol must be set if port is set.')
-    }
 
     $iptables_chain = $direction ? {
       'output'  => 'OUTPUT',
