@@ -1,7 +1,6 @@
 fixtures:
   repositories:
     "puppi": "git://github.com/example42/puppi.git"
-    "firewall": "git://github.com/example42/puppet-firewall.git"
     "iptables": "git://github.com/example42/puppet-iptables.git"
     "concat": "git://github.com/example42/puppet-concat.git"
   symlinks:
