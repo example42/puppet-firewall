@@ -15,7 +15,7 @@ This module abstracts the firewalling definitions for an host or application, in
 - a standard way to define what an application or an host needs to be firewalled
 - reversable actions (you can remove a firewall resource previously defined)
 
-## Usage
+## Usage
 In order to activate automatic firewalling for the port(s) opened by the service(s) provided by a module you have to pass, at least, these parameters:
 
         class { "foo":
@@ -56,7 +56,7 @@ If specific source / destination adresses should be used, a definition will look
 This is a meta-module that needs dependencies according to the firewall tools modules you use (currently only Example42's iptablles module is supported).
 It requires Example42's Puppi and Iptables modules.
 
-## Status of the module
+## Status of the module
 This module is derived from the firewall module of the first generation of Example42 Puppet modules.
 
 Work and adaptation for the second generation of Example42 Puppet module is in progress, some features may be added or modified.
