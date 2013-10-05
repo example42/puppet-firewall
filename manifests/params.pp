@@ -1,8 +1,8 @@
 class firewall::params (
-  $rule_class = 'iptables::rule::iptables'
+  $rule_class = 'firewall::rule::iptables'
 ) {
 
-  if $rule_class =~ /iptables::rule::iptables/ {
+  if $rule_class =~ /firewall::rule::iptables/ {
 
     include firewall::setup
 
