@@ -20,9 +20,6 @@ In order to activate automatic firewalling for the port(s) opened by the service
 
         class { "foo":
           firewall      => true,
-          firewall_tool => "iptables",
-          firewall_src  => "10.42.0.0/24",
-          firewall_dst  => "$ipaddress_eth0",
         }
 
 where firewall_tool is a string or an array of the firewalling tools you want to activate (curretly is supposed only local iptables firewalling with Example42's iptables module). $firewall_src is the source ip address / netmask (may be 0.0.0.0/0) to allow access, and $firewall_dst is the destination address (may be a facter variable.
@@ -33,13 +30,7 @@ In order to enable IPv6 there have to be configured two parts:
           class{ 'iptables' :
             enable_v6 => true,
           }
-- then firewall rules can be IPv6 enabled also:
-        firewall { 'http': 
-          port       => '80',
-          protocol   => 'tcp',
-          enable_v6  => true,
-        }
-        
+
 If specific source / destination adresses should be used, a definition will look like: 
         firewall { 'http':
           source          => '10.42.0.0/24',
@@ -48,12 +39,11 @@ If specific source / destination adresses should be used, a definition will look
           destination_v6  => '2001:470:27:37e::2/64', 
           port            => '80',
           protocol        => 'tcp',
-          enable_v6       => true,
         }
         
 ## Dependencies
 
-This is a meta-module that needs dependencies according to the firewall tools modules you use (currently only Example42's iptablles module is supported).
+This is a meta-module that needs dependencies according to the firewall tools modules you use (currently only Example42's iptables module is supported).
 It requires Example42's Puppi and Iptables modules.
 
 ## Status of the module
