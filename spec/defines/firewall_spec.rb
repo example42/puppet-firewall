@@ -12,7 +12,7 @@ describe 'firewall' do
         'enable_v6'  => true,
       }
     }
-      
+
     it { should contain_iptables__rule( "firewall1" ).with(
       'port'  => '80',
       'protocol'  => 'tcp',

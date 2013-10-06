@@ -23,8 +23,8 @@ define firewall::rule (
   $log_limit        = $firewall::setup::log_limit,
   $log_level        = $firewall::setup::log_level,
   $enable           = true,
-  $enable_v4        = $iptables::bool_enable_v4,
-  $enable_v6        = $iptables::bool_enable_v6,
+  $enable_v4        = $firewall::setup::enable_v4,
+  $enable_v6        = $firewall::setup::enable_v6,
   $debug            = false,
 
   # Iptables specifics
@@ -34,13 +34,13 @@ define firewall::rule (
   $iptables_target_options   = {},
   $iptables_rule             = '',
 ) {
-  
+
   include firewall::setup
 
   if ($firewall::setup::rule_class =~ /firewall::rule::iptables/) {
 
     # Embedded here for performance reasons
-  
+
     # FIXME: Unsure if this should be in firewall or iptables. Maybe both?
     # TODO: Move to iptables - beware of implicit-matches though
     # iptables-restore v1.3.5: Unknown arg `--dport'
@@ -54,8 +54,13 @@ define firewall::rule (
       default => $order
     }
 
+    $chain = $iptables_chain ? {
+      ''      => $firewall::setup::iptables_chains[$direction],
+      default => $iptables_chain
+    }
+
     iptables::rule { $name:
-      chain            => $firewall::setup::iptables_chains[$iptables_chain],
+      chain            => $chain,
       target           => $firewall::setup::iptables_targets[$action],
       in_interface     => $in_interface,
       out_interface    => $out_interface,
@@ -84,8 +89,8 @@ define firewall::rule (
     # TODO: Would rather use this statement, but can't. Blaming a Puppet Bug (TBD)
     # The get_class_args() call adds a dependency on puppi
     # create_resources($firewall::setup::rule_class, get_class_args())
-    
-#    fail('No firewall class was matched')
+
+    fail('No firewall class was matched')
   }
 
 }
