@@ -54,8 +54,13 @@ define firewall::rule (
       default => $order
     }
 
+    $chain = $iptables_chain ? {
+      ''      => $firewall::setup::iptables_chains[$direction],
+      default => $iptables_chain
+    }
+
     iptables::rule { $name:
-      chain            => $firewall::setup::iptables_chains[$iptables_chain],
+      chain            => $chain,
       target           => $firewall::setup::iptables_targets[$action],
       in_interface     => $in_interface,
       out_interface    => $out_interface,
