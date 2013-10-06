@@ -58,7 +58,7 @@ define firewall::rule (
       ''      => $firewall::setup::iptables_chains[$direction],
       default => $iptables_chain
     }
-
+    include iptables
     iptables::rule { $name:
       chain            => $chain,
       target           => $firewall::setup::iptables_targets[$action],
