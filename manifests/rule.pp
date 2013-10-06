@@ -23,8 +23,8 @@ define firewall::rule (
   $log_limit        = $firewall::setup::log_limit,
   $log_level        = $firewall::setup::log_level,
   $enable           = true,
-  $enable_v4        = $iptables::bool_enable_v4,
-  $enable_v6        = $iptables::bool_enable_v6,
+  $enable_v4        = $firewall::setup::enable_v4,
+  $enable_v6        = $firewall::setup::enable_v6,
   $debug            = false,
 
   # Iptables specifics
@@ -85,7 +85,7 @@ define firewall::rule (
     # The get_class_args() call adds a dependency on puppi
     # create_resources($firewall::setup::rule_class, get_class_args())
 
-#    fail('No firewall class was matched')
+    fail('No firewall class was matched')
   }
 
 }
