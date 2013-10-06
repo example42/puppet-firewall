@@ -31,16 +31,16 @@ In order to enable IPv6 there have to be configured two parts:
             enable_v6 => true,
           }
 
-If specific source / destination adresses should be used, a definition will look like: 
+If specific source / destination adresses should be used, a definition will look like:
         firewall { 'http':
           source          => '10.42.0.0/24',
           source_v6       => '2001:0db8:3c4d:0015:0000:0000:abcd:ef12',
           destination     => '$ipaddress_eth0',
-          destination_v6  => '2001:470:27:37e::2/64', 
+          destination_v6  => '2001:470:27:37e::2/64',
           port            => '80',
           protocol        => 'tcp',
         }
-        
+
 ## Dependencies
 
 This is a meta-module that needs dependencies according to the firewall tools modules you use (currently only Example42's iptables module is supported).

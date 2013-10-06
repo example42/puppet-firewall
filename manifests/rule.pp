@@ -34,13 +34,13 @@ define firewall::rule (
   $iptables_target_options   = {},
   $iptables_rule             = '',
 ) {
-  
+
   include firewall::setup
 
   if ($firewall::setup::rule_class =~ /firewall::rule::iptables/) {
 
     # Embedded here for performance reasons
-  
+
     # FIXME: Unsure if this should be in firewall or iptables. Maybe both?
     # TODO: Move to iptables - beware of implicit-matches though
     # iptables-restore v1.3.5: Unknown arg `--dport'
@@ -84,7 +84,7 @@ define firewall::rule (
     # TODO: Would rather use this statement, but can't. Blaming a Puppet Bug (TBD)
     # The get_class_args() call adds a dependency on puppi
     # create_resources($firewall::setup::rule_class, get_class_args())
-    
+
 #    fail('No firewall class was matched')
   }
 
