@@ -4,7 +4,7 @@ class firewall::params (
 
   if $rule_class =~ /firewall::rule::iptables/ {
 
-    include firewall::setup
+    include iptables
 
     $order = $iptables::default_order
 
