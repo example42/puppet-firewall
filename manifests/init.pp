@@ -36,6 +36,7 @@ define firewall (
     direction      => $direction,
     order          => $order,
     enable         => $enable,
+    enable_v4      => $enable,
     enable_v6      => $enable_v6
   }
 }
