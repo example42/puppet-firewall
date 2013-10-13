@@ -174,7 +174,7 @@ define firewall::rule (
            (!('0' != inline_template('<%=@destination_v6.length %>') and 
            '0' == inline_template('<%=@real_destination_v6.length %>')) and
            $real_direction == 'output')
-          )
+          ) or ($real_direction != 'input' and $real_direction != 'output' ) # This line needs changing. Some time
     }
     
   } else {
