@@ -74,8 +74,8 @@
 #
 # [*resolve_failsafe*]
 #   Bool. Default true. Disable the given IP version if no hosts could be
-#   resolved. Looks at source ip if $direction == input, destination ip if
-#   $direction == output. Does nothing with forward traffic (yet).
+#   resolved. Looks at source ip if $real_direction == input, destination ip if
+#   $real_direction == output. Does nothing with forward traffic (yet).
 #
 # [*iptables_chain*]
 #   The iptables chain to work on (default INPUT).
@@ -132,7 +132,12 @@ define firewall::rule (
 ) {
 
   include firewall::setup
-  
+
+  $real_direction = $direction ? {
+    ''      => 'input',
+    default => inline_template('<%= @direction.downcase %>')
+  }
+
   if any2bool($enable_v4) and any2bool($resolve_locations) {
     $real_source = firewall_resolve_locations($source, '4')
     $real_destination = firewall_resolve_locations($destination, '4')
@@ -142,12 +147,12 @@ define firewall::rule (
          (
            (!('0' != inline_template('<%=@source.length %>') and 
            '0' == inline_template('<%=@real_source.length %>')) and
-           $direction == 'input')
+           $real_direction == 'input')
           ) or (
            (!('0' != inline_template('<%=@destination.length %>') and 
            '0' == inline_template('<%=@real_destination.length %>')) and
-           $direction == 'output')
-          )
+           $real_direction == 'output')
+          ) or ($real_direction != 'input' and $real_direction != 'output' ) # This line needs changing. Some time
     }
   } else {
     $real_source      = $source
@@ -164,11 +169,11 @@ define firewall::rule (
          (
            (!('0' != inline_template('<%=@source_v6.length %>') and 
            '0' == inline_template('<%=@real_source_v6.length %>')) and
-           $direction == 'input')
+           $real_direction == 'input')
           ) or (
            (!('0' != inline_template('<%=@destination_v6.length %>') and 
            '0' == inline_template('<%=@real_destination_v6.length %>')) and
-           $direction == 'output')
+           $real_direction == 'output')
           )
     }
     
@@ -196,7 +201,7 @@ define firewall::rule (
     }
 
     $chain = $iptables_chain ? {
-      ''      => $firewall::setup::iptables_chains[$direction],
+      ''      => $firewall::setup::iptables_chains[$real_direction],
       default => $iptables_chain
     }
 
