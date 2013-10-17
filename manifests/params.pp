@@ -29,8 +29,8 @@ class firewall::params (
     $log_limit       = $iptables::log_limit
     $log_level       = $iptables::log_level
 
-    $enable_v4       = $iptables::bool_enable_v4
-    $enable_v6       = $iptables::bool_enable_v6
+    $enable_v4       = $iptables::enable_v4
+    $enable_v6       = $iptables::enable_v6
     $target          = $iptables::default_target
 
   }
