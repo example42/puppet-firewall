@@ -125,6 +125,7 @@ define firewall::rule (
 
   # Iptables specifics
   $iptables_chain            = '',
+  $iptables_target           = '',
   $iptables_implicit_matches = {},
   $iptables_explicit_matches = {},
   $iptables_target_options   = {},
@@ -204,10 +205,15 @@ define firewall::rule (
       ''      => $firewall::setup::iptables_chains[$real_direction],
       default => $iptables_chain
     }
+    
+    $real_iptables_target = $iptables_target ? {
+      ''      => $firewall::setup::iptables_targets[$action],
+      default => $iptables_target
+    }
 
     iptables::rule { $name:
       chain            => $chain,
-      target           => $firewall::setup::iptables_targets[$action],
+      target           => $real_iptables_target,
       in_interface     => $in_interface,
       out_interface    => $out_interface,
       source           => $real_source,
