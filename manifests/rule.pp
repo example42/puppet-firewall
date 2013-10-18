@@ -124,6 +124,7 @@ define firewall::rule (
   $resolve_failsafe = true,
 
   # Iptables specifics
+  $iptables_table            = 'filter',
   $iptables_chain            = '',
   $iptables_target           = '',
   $iptables_implicit_matches = {},
@@ -212,6 +213,7 @@ define firewall::rule (
     }
 
     iptables::rule { $name:
+      table            => $iptables_table,
       chain            => $chain,
       target           => $real_iptables_target,
       in_interface     => $in_interface,
