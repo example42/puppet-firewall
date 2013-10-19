@@ -14,7 +14,7 @@ define firewall (
   $order          = '',
   $tool           = 'iptables',
   $enable         = true,
-  $enable_v6      = false
+  $enable_v6      = true
   ) {
 
   include firewall::setup
